@@ -43,6 +43,7 @@ Inspiration(s):
 #include <QSslSocket>
 #include <QTimer>
 #include <QUrlQuery>
+#include <QTimeZone>
 
 #define UPDATE_TIMEOUT_SEC 10
 
@@ -169,7 +170,7 @@ public:
 
 		auto utcDateTime = QDateTime::fromString(
 			pluginUpdateInfo.releaseDate, Qt::ISODate);
-		utcDateTime.setTimeSpec(Qt::UTC);
+		utcDateTime.setTimeZone(QTimeZone::UTC);
 		auto formattedUtcDateTime =
 			utcDateTime.toString("yyyy-MM-dd hh:mm:ss 'UTC'");
 		textTemp = QString("<h3>%1</h3>")
@@ -183,7 +184,7 @@ public:
 		ui->checkBoxAutoCheckForUpdates->setChecked(
 			config->AutoCheckForUpdates());
 		connect(ui->checkBoxAutoCheckForUpdates,
-			&QCheckBox::stateChanged, this, [](int state) {
+			&QCheckBox::checkStateChanged, this, [](int state) {
 				Config::Current(false)->AutoCheckForUpdates(
 					state == Qt::Checked);
 			});
